@@ -709,7 +709,7 @@ function OptanonWrapper() {
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / (animationTime * 1000), 1);
       
-      // Calculate current position in text
+      // Calculate current position in text - ensure we reach the full length
       const currentIndex = Math.floor(progress * response.length);
       
       if (progress < 1) {
@@ -738,23 +738,38 @@ function OptanonWrapper() {
       } else {
         clearInterval(interval);
         
-        // Show full text after streaming completes
-        const formattedResponse = escapeHtmlButPreserveMath(response).replace(/\n/g, '<br>');
-        outputElement.innerHTML = formattedResponse;
-        
-        // Trigger MathJax to render the math
-        if (window.MathJax && window.MathJax.typesetPromise) {
-          MathJax.typesetPromise([outputElement]).catch((err) => console.error('MathJax error:', err));
+        // First, show the complete text without rendering (for smooth transition)
+        const fullText = response;
+        let displayText;
+        if (fullText.length > MAX_VISIBLE_CHARS) {
+          displayText = '...' + fullText.substring(fullText.length - MAX_VISIBLE_CHARS);
+        } else {
+          displayText = fullText;
         }
-        
+        const formattedText = escapeHtmlButPreserveMath(displayText).replace(/\n/g, '<br>');
+        outputElement.innerHTML = formattedText;
         outputElement.scrollTop = outputElement.scrollHeight;
         
-        // Final update - show actual stream time
+        // Update final stats
         timeElement.textContent = actualStreamTime.toFixed(1) + 's';
         tokensElement.textContent = totalTokens;
         
-        // Check if both models finished
-        checkBothFinished();
+        // Add a small delay before MathJax rendering for smooth transition
+        setTimeout(() => {
+          // Show full text for MathJax rendering
+          const formattedResponse = escapeHtmlButPreserveMath(response).replace(/\n/g, '<br>');
+          outputElement.innerHTML = formattedResponse;
+          
+          // Trigger MathJax to render the math
+          if (window.MathJax && window.MathJax.typesetPromise) {
+            MathJax.typesetPromise([outputElement]).catch((err) => console.error('MathJax error:', err));
+          }
+          
+          outputElement.scrollTop = outputElement.scrollHeight;
+          
+          // Check if both models finished
+          checkBothFinished();
+        }, 200); // Small delay for smooth transition
       }
     }, frameInterval);
     
