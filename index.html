@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
+  <!-- Replace the content tag with appropriate information -->
+  <meta name="description" content="DLER: Doing Length pEnalty Right - Incentivizing
+  More Intelligence per Token via Reinforcement Learning">
+  <meta property="og:title" content="DLER: Doing Length pEnalty Right - Incentivizing
+More Intelligence per Token via Reinforcement Learning"/>
+  <meta property="og:description" content="DLER: Doing Length pEnalty Right - Incentivizing
+  More Intelligence per Token via Reinforcement Learning"/>
+  <meta property="og:url" content="https://research.nvidia.com/labs/lpr/dler_rl/"/>
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
+  <meta property="og:image" content="static/image/your_banner_image.png" />
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+
+
+  <meta name="twitter:title" content="DLER: Doing Length pEnalty Right - Incentivizing
+More Intelligence per Token via Reinforcement Learning">
+  <meta name="twitter:description" content="DLER: Doing Length pEnalty Right - Incentivizing
+  More Intelligence per Token via Reinforcement Learning">
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
+  <meta name="twitter:image" content="static/images/your_twitter_banner_image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- Keywords for your paper to be indexed by-->
+  <meta name="keywords" content="KEYWORDS SHOULD BE PLACED HERE">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <title>DLER: Doing Length pEnalty Right - Incentivizing
+More Intelligence per Token via Reinforcement
+Learning</title>
+  <link rel="icon" type="image/x-icon" href="static/images/climb.png">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  
+  <!-- MathJax for LaTeX rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://unpkg.com/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+  <script src="document_samples.js"></script>
+<!-- OneTrust Cookies Consent Notice start for nvidia.com -->
+<script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js" data-document-language="true" type="text/javascript" charset="UTF-8" data-domain-script="3e2b62ff-7ae7-4ac5-87c8-d5949ecafff5" ></script>
+<script type="text/javascript">
+function OptanonWrapper() {       
+        var event = new Event('bannerLoaded');
+        window.dispatchEvent(event);
+    }
+</script>
+<!-- OneTrust Cookies Consent Notice end for nvidia.com -->
+<script type="text/javascript" src="https://images.nvidia.com/aem-dam/Solutions/ot-js/ot-custom.js"></script>
+
+<style>
+  .policy-links {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    line-height: 1.8;
+  }
+  
+  .policy-link {
+    color: #4a4a4a;
+    padding: 0.2rem 0.5rem;
+    transition: color 0.3s, background-color 0.3s;
+    border-radius: 4px;
+  }
+  
+  .policy-link:hover {
+    color: #3273dc;
+    background-color: #f5f5f5;
+    text-decoration: none;
+  }
+  
+  .separator {
+    margin: 0 0.2rem;
+    color: #dbdbdb;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .policy-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .policy-link {
+      margin: 0.3rem;
+    }
+    
+    .separator {
+      display: none;
+    }
+  }
+  
+  /* Add these custom styles to your existing styles */
+  .container.is-fullwidth {
+    max-width: 100%;
+    width: 100%;
+    padding: 0 1rem;
+  }
+  
+  .content figure.image img.large-diagram {
+    width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+  }
+  
+  .results-table-container {
+    overflow-x: auto;
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .table-wrapper {
+    padding: 0;
+  }
+  
+  .compact-table {
+    font-size: 0.75rem !important;
+    width: 100%;
+  }
+  
+  .compact-table th, 
+  .compact-table td {
+    padding: 0.4em 0.5em !important;
+    white-space: nowrap;
+  }
+
+  .compact-table strong {
+    font-weight: 700;
+    color: #209cee;
+  }
+  
+  @media screen and (max-width: 1023px) {
+    .results-table-container {
+      margin-left: -1rem;
+      margin-right: -1rem;
+      width: calc(100% + 2rem);
+    }
+  }
+  
+  @media screen and (min-width: 1024px) {
+    .container.is-fullwidth {
+      padding: 0 2rem;
+    }
+  }
+
+  /* Extend the width of the Pre-training from Scratch section too */
+  .container.is-wider {
+    max-width: 1344px;
+    margin: 0 auto;
+  }
+
+  /* 修改图片说明文字样式：单行居中，多行左对齐 */
+  figure.image figcaption {
+    margin-top: 0.75rem;
+    line-height: 1.4;
+    color: #4a4a4a;
+    font-size: 0.9rem;
+    padding: 0 0.5rem;
+    text-align: left; /* 默认左对齐 */
+    max-width: 100%;
+  }
+  
+  /* 单行文本居中的技巧 */
+  figure.image figcaption:not(:has(br)):not([style*="height"])[style*="display: -webkit-box;"] {
+    text-align: center;
+  }
+  
+  /* 简单替代方案：检测短文本并居中 */
+  figure.image figcaption:not(:has(br)):not([style*="height"]) {
+    text-align: center;
+  }
+  
+  /* 表格标题使用相同的样式逻辑 */
+  table caption {
+    margin-bottom: 1rem;
+    color: #4a4a4a;
+    font-weight: bold;
+    text-align: left;
+  }
+  
+  /* 单行表格标题居中 */
+  table caption:not(:has(br)):not([style*="height"]) {
+    text-align: center;
+  }
+</style>
+  
+<script>
+  /* 为处理不同浏览器兼容性的JavaScript函数 */
+  window.addEventListener('DOMContentLoaded', function() {
+    // 处理图片说明
+    document.querySelectorAll('figure.image figcaption').forEach(function(caption) {
+      // 如果文本没有换行且宽度不超过一定比例，认为是单行文本
+      if (caption.offsetHeight < 24 && caption.textContent.length < 100) {
+        caption.style.textAlign = 'center';
+      } else {
+        caption.style.textAlign = 'left';
+      }
+    });
+    
+    // 处理表格标题
+    document.querySelectorAll('table caption').forEach(function(caption) {
+      if (caption.offsetHeight < 24 && caption.textContent.length < 100) {
+        caption.style.textAlign = 'center';
+      } else {
+        caption.style.textAlign = 'left';
+      }
+    });
+  });
+</script>
+
+</head>
+<body>
+
+  <section class="hero" style="margin-bottom: -30px;">
+    <div class="hero-body" style="padding: 1rem 1.5rem;">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title" style="margin-bottom: 0.5rem;">
+              <img src="./static/images/climb.png" alt="DLER" style="height: 1.2em; vertical-align: middle; margin-right: 0.3em; display: inline-block;">
+              DLER: Doing Length pEnalty Right - Incentivizing More Intelligence per Token via Reinforcement Learning
+            </h1>
+            <div class="is-size-5 publication-authors" style="margin-bottom: 0.5rem;">
+              <!-- Paper authors -->
+                <span class="author-block">
+                  <a href="https://nbasyl.github.io/" target="_blank">Shih-Yang Liu<sup>1</sup></a>,</span>
+                  <span class="author-block">
+                    <a href="https://simonxin.com/" target="_blank">Xin Dong<sup>2</sup></a>,</span>
+                    <span class="author-block">
+                      <a href="https://gloriaximinglu.github.io/" target="_blank">Ximing Lu</a>,</span>
+                      <span class="author-block">
+                        <a href="https://shizhediao.github.io/" target="_blank">Shizhe Diao</a>,</span>
+                    <span class="author-block">
+                      <a href="https://research.nvidia.com/person/mingjie-liu" target="_blank"> Mingjie Liu</a>,</span>
+                      <span class="author-block">
+                        <a href="https://minhungchen.netlify.app/" target="_blank">Min-Hung Chen</a>,</span>
+                        <span class="author-block">
+                          <a href="https://hongxu-yin.github.io/" target="_blank">Hongxu Yin</a>,</span>
+                          <span class="author-block">
+                            <a href="https://vllab.ee.ntu.edu.tw/ycwang.html" target="_blank">Yu-Chiang Frank Wang</a>,</span>
+                            <span class="author-block">
+                              <a href="https://seng.hkust.edu.hk/about/people/faculty/tim-kwang-ting-cheng" target="_blank">Kwang-Ting Cheng<sup>1</sup></a>,</span>
+                              <span class="author-block">
+                                <a href="https://yejinc.github.io/" target="_blank">Yejin Choi</a>,</span>
+                                <span class="author-block">
+                                          <span class="author-block">
+                                            <a href="https://jankautz.com/" target="_blank">Jan Kautz</a>,</span>                                
+                                              <span class="author-block">
+                                                <a href="https://www.pmolchanov.com/" target="_blank">Pavlo Molchanov</a></span>
+
+                </div>
+
+                  <div class="is-size-5 publication-authors" style="margin-bottom: 0.5rem;">
+                    <span class="author-block">
+                      <img src="https://www.nvidia.com/favicon.ico" alt="NVIDIA" style="width: 2em; height: 2em; vertical-align: middle; margin-right: 0.3em;">
+                      NVIDIA
+                    </span>
+                    <span class="eql-cntrb"><small><br><sup>1</sup> affiliated with HKUST. Work done during Shih-Yang’s internship at NVIDIA <sup>2</sup> project lead</small></span>
+                  </div>
+
+                  <div class="column has-text-centered" style="margin-bottom: 0;">
+                    <div class="publication-links">
+                         <!-- Arxiv PDF link -->
+                      <span class="link-block">
+                        <a href="https://www.arxiv.org/abs/2510.15110" target="_blank"
+                        class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                          <i class="fas fa-file-pdf"></i>
+                        </span>
+                        <span>Paper</span>
+                      </a>
+                    </span>
+
+                    <span class="link-block">
+                      <a href="https://huggingface.co/collections/nvidia/reasoning-efficiency-research" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon" style="font-size:18px">🤗</span>
+                        <span>Models</span>
+                      </a>
+                    </span>
+                    <!-- <span class="link-block">
+                        <a href="https://huggingface.co/datasets/nvidia/ClimbMix" class="external-link button is-normal is-rounded is-dark">
+                          <span class="icon" style="font-size:18px"></span>
+                          <span>Code</span>
+                        </a>
+                      </span> -->
+                      <span class="link-block">
+                        <a href="https://github.com/NVlabs/DLER" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                          <span class="icon" style="font-size:18px">
+                            <i class="fab fa-github"></i>
+                          </span>
+                          <span>Code</span>
+                        </a>
+                      </span>
+
+                    <!-- Supplementary PDF link -->
+                    <!-- <span class="link-block">
+                      <a href="static/pdfs/supplementary_material.pdf" target="_blank"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                      </span>
+                      <span>Supplementary</span>
+                    </a>
+                  </span> -->
+
+                  <!-- Github link -->
+                  <!-- <span class="link-block">
+                    <a href="https://github.com/YOUR REPO HERE" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span> -->
+
+                <!-- ArXiv abstract Link -->
+                <!-- <span class="link-block">
+                  <a href="https://arxiv.org/abs/<ARXIV PAPER ID>" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                  </a>
+                </span> -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Interactive Streaming Demo Section -->
+<section class="section" style="padding: 2rem 1.5rem; background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column">
+        <h2 class="title is-4 has-text-centered has-text-black" style="margin-bottom: 1.5rem;">
+          Model Response Examples
+        </h2>
+        
+        <!-- Question Selector -->
+        <div class="field">
+          <label class="label has-text-black">Select a Question:</label>
+          <div class="control">
+            <div class="select is-fullwidth is-medium">
+              <select id="questionSelect">
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question Display -->
+        <div id="questionDisplay" class="box" style="display: none; margin-top: 1.5rem; background-color: rgba(255,255,255,0.95); border-radius: 8px; padding: 1.5rem;">
+          <h3 class="title is-5" style="color: #363636; margin-bottom: 1rem;">Question:</h3>
+          <p id="questionText" style="font-size: 1.1rem; color: #4a4a4a; margin-bottom: 1.5rem;"></p>
+
+          <!-- Models Comparison -->
+          <div class="columns is-variable is-4">
+            <!-- Model A -->
+            <div class="column">
+              <div class="box" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); min-height: 400px; position: relative;">
+                <h4 id="modelAName" class="title is-5 has-text-white" style="margin-bottom: 0.75rem;">Model A</h4>
+                <div class="model-stats" style="margin-bottom: 1rem;">
+                  <div class="tags">
+                    <span class="tag is-light is-medium">
+                      <span class="icon"><i class="fas fa-clock"></i></span>
+                      <span>Time: <strong id="modelATime">0.0s</strong></span>
+                    </span>
+                    <span class="tag is-light is-medium">
+                      <span class="icon"><i class="fas fa-coins"></i></span>
+                      <span>Tokens: <strong id="modelATokens">0</strong></span>
+                    </span>
+                  </div>
+                </div>
+                <div id="modelAOutput" class="content has-text-white" style="background-color: rgba(0,0,0,0.2); padding: 1rem; border-radius: 6px; min-height: 250px; max-height: 250px; overflow-y: auto; overflow-x: hidden; font-size: 0.95rem; line-height: 1.6; word-wrap: break-word; overflow-wrap: break-word; word-break: break-word;"></div>
+              </div>
+            </div>
+
+            <!-- Model B -->
+            <div class="column">
+              <div class="box" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); min-height: 400px; position: relative;">
+                <h4 id="modelBName" class="title is-5 has-text-white" style="margin-bottom: 0.75rem;">Model B</h4>
+                <div class="model-stats" style="margin-bottom: 1rem;">
+                  <div class="tags">
+                    <span class="tag is-light is-medium">
+                      <span class="icon"><i class="fas fa-clock"></i></span>
+                      <span>Time: <strong id="modelBTime">0.0s</strong></span>
+                    </span>
+                    <span class="tag is-light is-medium">
+                      <span class="icon"><i class="fas fa-coins"></i></span>
+                      <span>Tokens: <strong id="modelBTokens">0</strong></span>
+                    </span>
+                  </div>
+                </div>
+                <div id="modelBOutput" class="content has-text-white" style="background-color: rgba(0,0,0,0.2); padding: 1rem; border-radius: 6px; min-height: 250px; max-height: 250px; overflow-y: auto; overflow-x: hidden; font-size: 0.95rem; line-height: 1.6; word-wrap: break-word; overflow-wrap: break-word; word-break: break-word;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Control Buttons -->
+          <div class="buttons is-centered" style="margin-top: 1rem;">
+            <button id="startButton" class="button is-primary is-small" disabled>
+              <span class="icon is-small"><i class="fas fa-play"></i></span>
+              <span>Start</span>
+            </button>
+          </div>
+
+          <!-- Efficiency Summary -->
+          <div id="efficiencySummary" class="notification is-success is-light" style="display: none; margin-top: 0.75rem; padding: 0.75rem 1rem;">
+            <p class="has-text-centered" style="margin: 0; font-size: 1.1rem;">
+              <strong>Efficiency Gain:</strong> <span id="efficiencyText"></span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #modelAOutput, #modelBOutput {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.5) transparent;
+  }
+  
+  #modelAOutput::-webkit-scrollbar, #modelBOutput::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  #modelAOutput::-webkit-scrollbar-track, #modelBOutput::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  #modelAOutput::-webkit-scrollbar-thumb, #modelBOutput::-webkit-scrollbar-thumb {
+    background-color: rgba(255,255,255,0.5);
+    border-radius: 4px;
+  }
+
+  .model-stats .tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  /* Prevent overflow in the Interactive Streaming Demo section */
+  #questionDisplay .columns {
+    max-width: 100%;
+  }
+  
+  #questionDisplay .column {
+    max-width: 100%;
+    overflow: hidden;
+  }
+  
+  #questionDisplay .box {
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  /* Style for model name links */
+  #modelAName a, #modelBName a {
+    transition: opacity 0.2s ease;
+  }
+  
+  #modelAName a:hover, #modelBName a:hover {
+    opacity: 0.8;
+  }
+</style>
+
+<script>
+  let streamingData = [];
+  let currentQuestion = null;
+  let isStreaming = false;
+  let streamingIntervalA = null;
+  let streamingIntervalB = null;
+
+  // Load streaming data
+  fetch('streaming_data.json')
+    .then(response => response.json())
+    .then(data => {
+      streamingData = data;
+      populateQuestions();
+    })
+    .catch(error => console.error('Error loading streaming data:', error));
+
+  function populateQuestions() {
+    const select = document.getElementById('questionSelect');
+    streamingData.forEach(item => {
+      const option = document.createElement('option');
+      option.value = item.id;
+      option.textContent = item.question;
+      select.appendChild(option);
+    });
+    
+    // Automatically select the first question
+    if (streamingData.length > 0) {
+      select.value = streamingData[0].id;
+      currentQuestion = streamingData[0];
+      displayQuestion();
+      // Automatically start streaming after a short delay
+      setTimeout(() => {
+        if (currentQuestion && !isStreaming) {
+          startStreaming();
+        }
+      }, 500);
+    }
+  }
+
+  document.getElementById('questionSelect').addEventListener('change', function(e) {
+    const questionId = parseInt(e.target.value);
+    if (questionId) {
+      currentQuestion = streamingData.find(q => q.id === questionId);
+      if (currentQuestion) {
+        stopStreaming();
+        displayQuestion();
+        // Automatically start streaming for newly selected question
+        setTimeout(() => {
+          if (currentQuestion && !isStreaming) {
+            startStreaming();
+          }
+        }, 300);
+      }
+    }
+  });
+
+  function displayQuestion() {
+    document.getElementById('questionDisplay').style.display = 'block';
+    
+    // Render question text with math support
+    const questionElement = document.getElementById('questionText');
+    const formattedQuestion = escapeHtmlButPreserveMath(currentQuestion.question).replace(/\n/g, '<br>');
+    questionElement.innerHTML = formattedQuestion;
+    
+    // Trigger MathJax to render the math in question
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      MathJax.typesetPromise([questionElement]).catch((err) => console.error('MathJax error:', err));
+    }
+    
+    // Set model names with optional links
+    const modelANameElement = document.getElementById('modelAName');
+    const modelBNameElement = document.getElementById('modelBName');
+    
+    if (currentQuestion.model_a.link) {
+      modelANameElement.innerHTML = `<a href="${currentQuestion.model_a.link}" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; cursor: pointer;">${currentQuestion.model_a.name}</a>`;
+    } else {
+      modelANameElement.textContent = currentQuestion.model_a.name;
+    }
+    
+    if (currentQuestion.model_b.link) {
+      modelBNameElement.innerHTML = `<a href="${currentQuestion.model_b.link}" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; cursor: pointer;">${currentQuestion.model_b.name}</a>`;
+    } else {
+      modelBNameElement.textContent = currentQuestion.model_b.name;
+    }
+    
+    // Reset outputs and stats
+    document.getElementById('modelAOutput').innerHTML = '';
+    document.getElementById('modelBOutput').innerHTML = '';
+    document.getElementById('modelATime').textContent = '0.0s';
+    document.getElementById('modelBTime').textContent = '0.0s';
+    document.getElementById('modelATokens').textContent = '0';
+    document.getElementById('modelBTokens').textContent = '0';
+    document.getElementById('efficiencySummary').style.display = 'none';
+    
+    document.getElementById('startButton').disabled = false;
+  }
+
+  document.getElementById('startButton').addEventListener('click', function() {
+    if (currentQuestion) {
+      // Stop any ongoing streaming
+      stopStreaming();
+      // Reset the display
+      document.getElementById('modelAOutput').innerHTML = '';
+      document.getElementById('modelBOutput').innerHTML = '';
+      document.getElementById('modelATime').textContent = '0.0s';
+      document.getElementById('modelBTime').textContent = '0.0s';
+      document.getElementById('modelATokens').textContent = '0';
+      document.getElementById('modelBTokens').textContent = '0';
+      document.getElementById('efficiencySummary').style.display = 'none';
+      // Start streaming after a brief delay
+      setTimeout(() => {
+        startStreaming();
+      }, 100);
+    }
+  });
+
+  function startStreaming() {
+    isStreaming = true;
+    document.getElementById('efficiencySummary').style.display = 'none';
+
+    const modelA = currentQuestion.model_a;
+    const modelB = currentQuestion.model_b;
+
+    // Calculate streaming parameters
+    const maxAnimationTime = Math.max(modelA.animation_time, modelB.animation_time);
+    
+    streamModel(modelA, 'A', maxAnimationTime);
+    streamModel(modelB, 'B', maxAnimationTime);
+  }
+
+  function escapeHtmlButPreserveMath(text) {
+    // Split text by LaTeX delimiters to preserve math expressions
+    const parts = [];
+    let lastIndex = 0;
+    const regex = /\\\(|\\\)|\\\[|\\\]/g;
+    let match;
+    let inMath = false;
+    let mathStart = 0;
+    
+    while ((match = regex.exec(text)) !== null) {
+      if (match[0] === '\\(' || match[0] === '\\[') {
+        if (!inMath) {
+          // Regular text before math
+          const regularText = text.substring(lastIndex, match.index);
+          parts.push(escapeHtml(regularText));
+          mathStart = match.index;
+          inMath = true;
+        }
+      } else if (match[0] === '\\)' || match[0] === '\\]') {
+        if (inMath) {
+          // Math expression including delimiters
+          const mathExpr = text.substring(mathStart, match.index + match[0].length);
+          parts.push(mathExpr);
+          lastIndex = match.index + match[0].length;
+          inMath = false;
+        }
+      }
+    }
+    
+    // Add remaining text
+    if (lastIndex < text.length) {
+      parts.push(escapeHtml(text.substring(lastIndex)));
+    }
+    
+    return parts.join('');
+  }
+  
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function streamModel(model, modelId, maxAnimationTime) {
+    const response = model.response;
+    const totalTokens = model.total_tokens;
+    const animationTime = model.animation_time;
+    const actualStreamTime = model.actual_stream_time;
+    
+    const outputElement = document.getElementById(`model${modelId}Output`);
+    const timeElement = document.getElementById(`model${modelId}Time`);
+    const tokensElement = document.getElementById(`model${modelId}Tokens`);
+    
+    const MAX_VISIBLE_CHARS = 800; // Maximum characters to display at once
+    const FRAME_RATE = 60; // Updates per second
+    const frameInterval = 1000 / FRAME_RATE;
+    
+    const startTime = Date.now();
+    const endTime = startTime + (animationTime * 1000);
+    
+    const interval = setInterval(() => {
+      const now = Date.now();
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / (animationTime * 1000), 1);
+      
+      // Calculate current position in text
+      const currentIndex = Math.floor(progress * response.length);
+      
+      if (progress < 1) {
+        const fullText = response.substring(0, currentIndex);
+        
+        // If text exceeds max visible chars, show only the latest portion
+        let displayText;
+        if (fullText.length > MAX_VISIBLE_CHARS) {
+          displayText = '...' + fullText.substring(fullText.length - MAX_VISIBLE_CHARS);
+        } else {
+          displayText = fullText;
+        }
+        
+        // Convert line breaks to <br> and set innerHTML
+        const formattedText = escapeHtmlButPreserveMath(displayText).replace(/\n/g, '<br>');
+        outputElement.innerHTML = formattedText;
+        
+        // Auto-scroll to bottom
+        outputElement.scrollTop = outputElement.scrollHeight;
+        
+        // Update stats - show proportional actual time based on progress
+        const displayTime = actualStreamTime * progress;
+        const displayTokens = Math.floor(totalTokens * progress);
+        timeElement.textContent = displayTime.toFixed(1) + 's';
+        tokensElement.textContent = displayTokens;
+      } else {
+        clearInterval(interval);
+        
+        // Show full text after streaming completes
+        const formattedResponse = escapeHtmlButPreserveMath(response).replace(/\n/g, '<br>');
+        outputElement.innerHTML = formattedResponse;
+        
+        // Trigger MathJax to render the math
+        if (window.MathJax && window.MathJax.typesetPromise) {
+          MathJax.typesetPromise([outputElement]).catch((err) => console.error('MathJax error:', err));
+        }
+        
+        outputElement.scrollTop = outputElement.scrollHeight;
+        
+        // Final update - show actual stream time
+        timeElement.textContent = actualStreamTime.toFixed(1) + 's';
+        tokensElement.textContent = totalTokens;
+        
+        // Check if both models finished
+        checkBothFinished();
+      }
+    }, frameInterval);
+    
+    if (modelId === 'A') {
+      streamingIntervalA = interval;
+    } else {
+      streamingIntervalB = interval;
+    }
+  }
+
+  function checkBothFinished() {
+    const modelAText = document.getElementById('modelAOutput').textContent;
+    const modelBText = document.getElementById('modelBOutput').textContent;
+    
+    const modelAComplete = modelAText.length >= currentQuestion.model_a.response.length - 5;
+    const modelBComplete = modelBText.length >= currentQuestion.model_b.response.length - 5;
+    
+    if (modelAComplete && modelBComplete) {
+      isStreaming = false;
+      showEfficiencySummary();
+    }
+  }
+
+  function showEfficiencySummary() {
+    console.log('Current question:', currentQuestion);
+    console.log('Efficiency text:', currentQuestion.efficiency_text);
+    
+    const efficiencyText = currentQuestion.efficiency_text || 'Efficiency data not available';
+    document.getElementById('efficiencyText').textContent = efficiencyText;
+    document.getElementById('efficiencySummary').style.display = 'block';
+  }
+
+  function stopStreaming() {
+    if (streamingIntervalA) {
+      clearInterval(streamingIntervalA);
+      streamingIntervalA = null;
+    }
+    if (streamingIntervalB) {
+      clearInterval(streamingIntervalB);
+      streamingIntervalB = null;
+    }
+    isStreaming = false;
+  }
+</script>
+
+
+<!-- Bar Plot Section -->
+<section class="section" style="padding: 1.5rem 1.5rem; background-color: #f5f5f5;">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column">
+        <h2 class="title is-4 has-text-centered" style="margin-bottom: 1rem;">
+          Time Needed to Complete A Benchmark
+        </h2>
+        
+        <!-- Legend -->
+        <div class="columns is-centered" style="margin-bottom: 1rem;">
+          <div class="column is-narrow">
+            <div style="display: flex; gap: 1.5rem; justify-content: center; align-items: center;">
+              <div style="display: flex; align-items: center; gap: 0.4rem;">
+                <div style="width: 16px; height: 16px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 3px;"></div>
+                <span id="legend-model1" style="font-weight: 600; font-size: 0.9rem;">Baseline</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.4rem;">
+                <div style="width: 16px; height: 16px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 3px;"></div>
+                <span id="legend-model2" style="font-weight: 600; font-size: 0.9rem;">DLER</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bar Chart Container -->
+        <div id="barChartContainer" class="box" style="background-color: white; padding: 1.25rem 1.5rem;">
+          <!-- X-axis (top) -->
+          <div id="xAxisTop" class="x-axis-top"></div>
+          <!-- Bar Chart -->
+          <div id="barChart"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .bar-row {
+    margin-bottom: 1.2rem;
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .bar-row.animated {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .bar-row.reset {
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: none;
+  }
+
+  .dataset-label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #363636;
+    min-width: 120px;
+    display: inline-block;
+    text-align: right;
+    padding-right: 0.75rem;
+  }
+
+  .bar-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+  }
+
+  .bar-wrapper {
+    position: relative;
+    height: 28px;
+    display: flex;
+    align-items: center;
+  }
+
+  .bar {
+    height: 22px;
+    border-radius: 4px;
+    position: relative;
+    transition: width 1.2s ease-out;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .bar.model1 {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  }
+
+  .bar.model2 {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    margin-top: 0.2rem;
+  }
+
+  .bar-text-display {
+    color: #363636;
+    font-weight: 600;
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.3s ease 0.1s;
+    white-space: nowrap;
+  }
+
+  .bar-row.animated .bar-text-display {
+    opacity: 1;
+  }
+
+  .bars-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    flex: 1;
+    position: relative;
+  }
+
+  .x-axis-top {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1.5px solid #dbdbdb;
+  }
+
+  .x-axis-label-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-left: 120px;
+    position: relative;
+  }
+
+  .x-axis-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #363636;
+    margin-bottom: 0.35rem;
+    text-align: center;
+  }
+
+  .x-axis-labels {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    position: relative;
+  }
+
+  .x-axis-tick {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+
+  .x-axis-tick-mark {
+    width: 1px;
+    height: 6px;
+    background-color: #4a4a4a;
+    margin-bottom: 0.2rem;
+  }
+
+  .x-axis-tick-label {
+    font-size: 0.75rem;
+    color: #4a4a4a;
+    font-weight: 500;
+  }
+
+  @media screen and (max-width: 768px) {
+    .x-axis-label-container {
+      margin-left: 90px;
+    }
+
+    .x-axis-name {
+      font-size: 0.75rem;
+    }
+
+    .x-axis-tick-label {
+      font-size: 0.7rem;
+    }
+    
+    .dataset-label {
+      min-width: 90px;
+      font-size: 0.75rem;
+      padding-right: 0.5rem;
+    }
+
+    .bar {
+      height: 18px;
+    }
+
+    .bar-wrapper {
+      height: 24px;
+    }
+
+    .bar-text-display {
+      font-size: 0.7rem;
+      margin-left: 0.4rem;
+    }
+
+    .bar-row {
+      margin-bottom: 1rem;
+    }
+  }
+</style>
+
+<script>
+  let barChartData = [];
+  let hasAnimated = false;
+
+  // X-axis configuration - customize the axis label
+  const xAxisConfig = {
+    axisLabel: 'Average Response Latency (s)',  // Customize axis name/label here
+    numTicks: 6  // Number of tick marks to display
+  };
+
+  // Load bar chart data
+  fetch('barplot_data.json')
+    .then(response => response.json())
+    .then(data => {
+      barChartData = data;
+      createXAxis();
+      createBarChart();
+      setupScrollAnimation();
+    })
+    .catch(error => console.error('Error loading bar chart data:', error));
+
+  function createXAxis() {
+    const xAxisContainer = document.getElementById('xAxisTop');
+    if (!xAxisContainer || barChartData.length === 0) return;
+
+    // Find max value from data
+    const maxValue = Math.max(
+      ...barChartData.flatMap(d => [d.model1.value, d.model2.value])
+    );
+
+    // Calculate nice tick values
+    const niceMax = Math.ceil(maxValue / 10) * 10;
+    const interval = niceMax / (xAxisConfig.numTicks - 1);
+    
+    const tickValues = [];
+    for (let i = 0; i < xAxisConfig.numTicks; i++) {
+      tickValues.push(Math.round(i * interval));
+    }
+
+    const labelsHTML = tickValues.map(value => `
+      <div class="x-axis-tick">
+        <div class="x-axis-tick-mark"></div>
+        <div class="x-axis-tick-label">${value}</div>
+      </div>
+    `).join('');
+
+    xAxisContainer.innerHTML = `
+      <div class="x-axis-label-container">
+        <div class="x-axis-name">${xAxisConfig.axisLabel}</div>
+        <div class="x-axis-labels">
+          ${labelsHTML}
+        </div>
+      </div>
+    `;
+  }
+
+  function createBarChart() {
+    const container = document.getElementById('barChart');
+    if (!container || barChartData.length === 0) return;
+
+    // Update legend with model names from data
+    if (barChartData[0]) {
+      document.getElementById('legend-model1').textContent = barChartData[0].model1.name;
+      document.getElementById('legend-model2').textContent = barChartData[0].model2.name;
+    }
+
+    // Find max value for scaling
+    const maxValue = Math.max(
+      ...barChartData.flatMap(d => [d.model1.value, d.model2.value])
+    );
+
+    // Create bar rows
+    barChartData.forEach((item, index) => {
+      const row = document.createElement('div');
+      row.className = 'bar-row';
+      row.style.transitionDelay = `${index * 0.1}s`;
+
+      const model1Width = (item.model1.value / maxValue) * 100;
+      const model2Width = (item.model2.value / maxValue) * 100;
+
+      row.innerHTML = `
+        <div style="display: flex; align-items: center;">
+          <div class="dataset-label">${item.dataset}</div>
+          <div class="bar-container">
+            <div class="bars-group">
+              <div class="bar-wrapper">
+                <div class="bar model1" data-width="${model1Width}" style="width: 0%;"></div>
+                <div class="bar-text-display">${item.model1.text}</div>
+              </div>
+              <div class="bar-wrapper">
+                <div class="bar model2" data-width="${model2Width}" style="width: 0%;"></div>
+                <div class="bar-text-display">${item.model2.text}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      container.appendChild(row);
+    });
+  }
+
+  function setupScrollAnimation() {
+    const barChartSection = document.getElementById('barChartContainer');
+    if (!barChartSection) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !hasAnimated) {
+          animateBars();
+          hasAnimated = true;
+        }
+      });
+    }, {
+      threshold: 0.3
+    });
+
+    observer.observe(barChartSection);
+
+    // Replay animation on hover
+    barChartSection.addEventListener('mouseenter', () => {
+      resetAndAnimateBars();
+    });
+  }
+
+  function resetAndAnimateBars() {
+    const rows = document.querySelectorAll('.bar-row');
+    
+    // First reset all animations to initial state
+    rows.forEach(row => {
+      row.classList.remove('animated');
+      row.classList.add('reset');
+      const bars = row.querySelectorAll('.bar');
+      bars.forEach(bar => {
+        bar.classList.remove('animated');
+        bar.style.width = '0%';
+      });
+    });
+
+    // Force reflow to ensure reset is applied
+    void document.querySelector('.bar-row').offsetWidth;
+
+    // Remove reset class and restore transitions
+    setTimeout(() => {
+      rows.forEach(row => {
+        row.classList.remove('reset');
+      });
+      
+      // Then trigger animation after transitions are restored
+      setTimeout(() => {
+        animateBars();
+      }, 20);
+    }, 20);
+  }
+
+  function animateBars() {
+    const rows = document.querySelectorAll('.bar-row');
+    
+    rows.forEach((row, index) => {
+      setTimeout(() => {
+        row.classList.add('animated');
+        
+        // Animate bar widths
+        const bars = row.querySelectorAll('.bar');
+        bars.forEach(bar => {
+          const targetWidth = bar.getAttribute('data-width');
+          setTimeout(() => {
+            bar.style.width = targetWidth + '%';
+            bar.classList.add('animated');
+          }, 50);
+        });
+      }, index * 150);
+    });
+  }
+</script>
+
+<!-- Paper abstract -->
+<section class="section hero is-light" style="padding: 1rem 1.5rem; margin-top: 0px;">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3" style="margin-bottom: 0.75rem;">What is the project about?</h2>
+        <div class="content has-text-justified">
+          <ul>
+            <li>
+              This project, <strong>Doing Length pEnalty Right (DLER)</strong>, cuts Chain-of-Thought (CoT) length by ~70% through RL fine-tuning on DeepSeek-R1 and Llama-Nemotron models without loss of accuracy – delivering more intelligence per token.
+            </li>
+            <li>
+              We find that it is not the sophisticated design of the length penalty that determines performance, but rather the choice of RL optimization algorithm. Even the simplest length truncation can achieve state-of-the-art accuracy-to-token efficiency when combined with our DLER recipe
+            </li>
+          </ul>
+        </div>
+          <figure class="image">
+            <img src="static/images/teaser.png" alt="CLIMB Data Filtering Architecture">
+            <figcaption>Figure 1: DLER substantially shortens the Chain-of-Thought (CoT) length in reasoning models trained with SFT, RL, or a combination of both methods.</figcaption>
+          </figure>
+          <!-- add some space here -->
+          <br>
+          <figure style="position: relative; left: 50%; transform: translateX(-50%); width: 120%; text-align:center;">
+            <div style="
+              display: flex;
+              justify-content: center;
+              align-items: flex-start;
+              gap: 24px;
+              flex-wrap: wrap;
+            ">
+              <figure style="text-align: center; flex: 1 1 48%; max-width: 48%;">
+                <img src="static/images/plot_TRI_7B.png" alt="SFT-trained model" style="width: 100%; height: auto; object-fit: contain;">
+                <figcaption style="margin-top: 6px;">(a)</figcaption>
+              </figure>
+          
+              <figure style="text-align: center; flex: 1 1 48%; max-width: 48%;">
+                <img src="static/images/latency_7b_1.png" alt="RL-trained model" style="width: 100%; height: auto; object-fit: contain;">
+                <figcaption style="margin-top: 6px;">(b)</figcaption>
+              </figure>
+            </div>
+          
+            <figcaption style="text-align: center; margin-top: 10px;">
+              Figure 2: (a) DLER achieves state-of-the-art accuracy/length trade-offs, shortening CoT by up to 70% without losing accuracy. (b) On AIME-24, DLER-R1 models enable better test-time scaling.
+            </figcaption>
+          </figure>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+
+<!-- Overview Section -->
+<section class="section" style="padding-top: 1rem; padding-bottom: 1rem;">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3" style="margin-bottom: 0.75rem;">What goes wrong when applying a length penalty? Re-examining the Simplest Length Penalty - Truncation</h2>
+        <div class="content">
+          <h3 class="title is-4" style="margin-bottom: 0.75rem; color:forestgreen;">Stricter Length Penalty Leads to Higher Reward Variance</h3></li>
+          <div class="content has-text-justified mt-4">
+            <p>
+              More aggressive truncation introduces greater training instability by increasing group-wise advantage variance, which in turn leads to more biased advantage estimates, thus we propose to swap out the group-wise normalization with batch-wise normalization to mitigate this issue.
+            </p>
+          </div>
+          <!-- <figure class="image">
+            <img src="static/images/plot_grpo_reinforce_horizontal.png" alt="CLIMB Data Filtering Architecture">
+            <figcaption>Figure 1: Accuracy and average response length of DeepSeek-R1-7B on the AIME-24 test set, evaluated every
+              10 training steps across two RL training runs: group-wise reward normalization (GRPO) and batch-wise
+              normalization. GRPO shows declining accuracy while batch-wise reward normalization remains stable despite
+              reduced token counts.</figcaption>
+          </figure> -->
+        </div>
+        <div class="content">
+          <h3 class="title is-4" style="margin-bottom: 0.75rem; color:forestgreen;">Entropy Collapse Limits Exploration of Reasoning Paths</h3></li>
+          <div class="content has-text-justified mt-4">
+            <p>
+              Clipping the updates of low-probability, high-entropy tokens—essential for exploring diverse reasoning paths—can cause an entropy collapse that limits exploration. Increasing the clipping threshold preserves these tokens during gradient updates, thereby alleviating entropy collapse.
+            </p>
+          </div>
+          <figure class="image">
+            <img src="static/images/entropy.png" alt="CLIMB Data Filtering Architecture">
+            <figcaption>Figure 3: Left: Word clouds of the most frequent tokens clipped by the high-threshold before applying higher clipping threshold,showing that many are transitional words important for reasoning, and clipping them limits exploration during RL training. (Right) Average probability and entropy of tokens not clipped, clipped by the higher threshold, and clipped by the lower threshold during RL training. Clipped tokens have much lower probabilities than unclipped ones, and those clipped by the higher threshold consistently show higher entropy, supporting that these are often high-entropy transitional tokens triggering reasoning steps.</figcaption>
+          </figure>
+        </div>
+        <div class="content">
+          <h3 class="title is-4" style="margin-bottom: 0.75rem; color:forestgreen;">Length Penalty Over-sparsify Training Signal</h3></li>
+          <div class="content has-text-justified mt-4">
+            <p>
+              Applying length penalty makes early training too difficult and later stages dominated by easy samples. We adopt Dynamic Sampling, which filters out overly easy/hard prompts and extreme response lengths, yielding balanced training signals and better length control.
+            </p>
+          </div>
+          <figure class="image">
+            <img src="static/images/ds_filter_combined.png" alt="CLIMB Data Filtering Architecture">
+            <figcaption>Figure 4: Left: Ratio of training prompts with all 16 rollouts receiving zero reward, including those caused by exceeding the truncation length. Around half of the prompts fall into this category early in training, weakening the signal and biasing the model toward easier prompts that model already know how to solve within the target length. Right: Ratio of training prompts with all 16 rollouts receiving reward score of one steadily increases, while average response length declines and remains markedly shorter than that for prompts whose rollouts all receive a reward of zero.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<section class="section">
+  <div class="container is-fullwidth">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-2">Combining All Ingredients: Do Length pEnalty Right (DLER)</h2>
+
+        <div class="content has-text-justified mt-4">
+            <p style="color: forestgreen;">
+              We unify batch-wise reward normalization, a higher policy update clipping
+              threshold, dynamic sampling to remove instances lacking balanced training signals, and a simple length
+              truncation penalty into a comprehensive training recipe, which we term DLER (Doing Length pEnalty
+              Right).
+            </p>
+        </div>
+        <h5 class="title is-5">Training Code will be released soon!</h5>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<section class="section">
+  <div class="container is-wider">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3">State of the Art Accuracy/Response Length Trade-offs</h2>
+        <div class="content">
+          <div class="columns is-centered">
+            <div class="column is-12">
+              <figure class="image" style="margin-top: 24px;">
+                <div class="columns is-centered">
+                  <!-- <div style="display: flex; justify-content: center; width: 100%;"> -->
+                    <figure style="
+                    position: relative;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 140%;
+                    margin-top: 0;
+                    margin-bottom: 1em;
+                    text-align: center;
+                  ">
+                    <div style="display: inline-block; width: 100%; text-align: center;">
+                      <img src="static/images/table.png" alt="Data Mixture Comparison" style="
+                        width: 100%; height: auto; object-fit: contain;
+                        border: 1px solid #eaeaea; border-radius: 8px;
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+                        background-color: white; padding: 15px;
+                      ">
+                      <figcaption style="
+                        display: block;
+                        width: 100%;
+                        margin-top: 12px;
+                        text-align: center;
+                        font-size: 0.95rem;
+                      ">
+                        Table 1: Comparison of DLER models and baseline models in terms of Pass@1 accuracy and corresponding
+                        average output length (tokens) across benchmarks.
+                      </figcaption>
+                    </div>
+                  </figure>
+                  <!-- </div> -->
+
+                </div>
+              </figure>
+            </div>
+          </div>
+        </div>
+        <div class="content has-text-justified mt-4">
+            <p>
+                <!-- Based on the insights obtained from our explorations, we apply CLIMB to two existing datasets: Nemotron-CC and smollm-corpus, with the goal of constructing a powerful new pre-training dataset. 
+                Specifically, we first combine Nemotron-CC and smollm-corpus, and then employ our proposed CLIMB-clustering method to semantically reorganize and filter this combined dataset into 20 distinct clusters, leading to a 1.2-trillion-token high-quality corpus, named <span style="color:#e15043; font-weight:500;">ClimbLab</span>. 
+                Subsequently, we utilize CLIMB-search to identify an optimal data mixture from these clusters.
+                Using this optimal mixture, we further extract a 400-billion-token high-quality dataset named <span style="color: #8046a1; font-weight:500;">ClimbMix</span>.
+                We publicly release these two datasets: the filtered 1.2-trillion-token dataset organized into 20 semantic clusters as a research playground for further data-mixture studies, and the optimized 400-billion-token ClimbMix dataset for efficient pre-training. -->
+            </p>
+            <p>
+                <!-- We train a 1B model from scratch with ClimbMix and evaluate its performance relative to models pretrained on other datasets under the same token budget. 
+                The results in Figure 3 indicate that models trained on ClimbMix significantly outperform those trained on existing datasets.  -->
+            </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-wider">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3">Different Length Penalties No Longer Push the Accuracy–Efficiency Frontier</h2>
+
+        <div class="content has-text-justified mt-4">
+            <p>
+              We show that with DLER, the effect of adopting different
+              length-penalty rewards fundamentally changes. Specifically, the accuracy–length relationship is no longer
+              altered in a way that yields strictly shorter responses with higher accuracy; instead, a trade-off always exists.
+            </p>
+        </div>
+        <figure style="position: relative; left: 50%; transform: translateX(-50%); width: 100%; text-align:center; margin: 0;">
+          <div style="
+            display: flex;
+            justify-content: center;
+            align-items: stretch;          /* make both columns equal height */
+            gap: 24px;
+            flex-wrap: nowrap;             /* keep them on one line */
+            box-sizing: border-box;
+          ">
+            <!-- Subfigure A -->
+            <figure style="
+              margin: 0;                   /* remove default figure margins */
+              text-align: center;
+              flex: 0 0 calc(50% - 12px);  /* 50% minus half the gap */
+              max-width: calc(50% - 12px);
+              display: flex;               /* stack image and caption */
+              flex-direction: column;
+            ">
+              <img src="static/images/diff_length.png" alt="MATH"
+                   style="width: 100%; height: auto; display: block; object-fit: contain;">
+              <figcaption style="margin-top: 6px;">(a) MATH</figcaption>
+            </figure>
+        
+            <!-- Subfigure B -->
+            <figure style="
+              margin: 0;
+              text-align: center;
+              flex: 0 0 calc(50% - 12px);
+              max-width: calc(50% - 12px);
+              display: flex;
+              flex-direction: column;
+            ">
+              <img src="static/images/diff_length_aime.png" alt="AIME-24"
+                   style="width: 100%; height: auto; display: block; object-fit: contain;">
+              <figcaption style="margin-top: 6px;">(b) AIME-24</figcaption>
+            </figure>
+          </div>
+        
+          <figcaption style="text-align: center; margin-top: 10px;">
+            Figure 5: Accuracy and average response length of DeepSeek-R1-7B trained using DLER with different length
+            penalties on MATH and AIME-24. DLER establishes a new accuracy–length efficiency frontier,
+            with varying length penalties moving performance along the frontier rather than beyond it.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <section class="section">
+  <div class="container is-wider">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3">Overcoming Quality Limitations of Publicly Available Training Data</h2>
+        <div class="content">
+          <div class="columns is-centered">
+            <div class="column is-12">
+              <figure class="image" style="margin-top: 24px;">
+                <div class="columns is-centered">
+                    <div class="column is-7">
+                        <figure class="image" style="margin-top: 0px;">
+                          <img src="static/images/final_data_comparison.png" alt="Data Mixture Comparison" class="large-diagram" 
+                            style="max-height: 480px; width: 100%; object-fit: contain; 
+                            border: 1px solid #eaeaea; border-radius: 8px; 
+                            box-shadow: 0 4px 8px rgba(0,0,0,0.05); 
+                            background-color: white; padding: 15px;">
+                          <figcaption style="text-align: left; margin-top: 15px; font-size: 0.95rem;">
+                            Figure 3: Training a 1B model from scratch on ClimbMix shows better scaling effects than training on other datasets.
+                          </figcaption>
+                        </figure>
+                      </div>
+
+                </div>
+              </figure>
+            </div>
+          </div>
+        </div>
+        <div class="content has-text-justified mt-4">
+            <p>
+                Based on the insights obtained from our explorations, we apply CLIMB to two existing datasets: Nemotron-CC and smollm-corpus, with the goal of constructing a powerful new pre-training dataset. 
+                Specifically, we first combine Nemotron-CC and smollm-corpus, and then employ our proposed CLIMB-clustering method to semantically reorganize and filter this combined dataset into 20 distinct clusters, leading to a 1.2-trillion-token high-quality corpus, named <span style="color:#e15043; font-weight:500;">ClimbLab</span>. 
+                Subsequently, we utilize CLIMB-search to identify an optimal data mixture from these clusters.
+                Using this optimal mixture, we further extract a 400-billion-token high-quality dataset named <span style="color: #8046a1; font-weight:500;">ClimbMix</span>.
+                We publicly release these two datasets: the filtered 1.2-trillion-token dataset organized into 20 semantic clusters as a research playground for further data-mixture studies, and the optimized 400-billion-token ClimbMix dataset for efficient pre-training.
+            </p>
+            <p>
+                We train a 1B model from scratch with ClimbMix and evaluate its performance relative to models pretrained on other datasets under the same token budget. 
+                The results in Figure 3 indicate that models trained on ClimbMix significantly outperform those trained on existing datasets. 
+            </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section> -->
+
+<!-- Cluster Table Section -->
+
+<!-- End Cluster Table Section -->
+
+
+<!--BibTex citation -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>
+        @misc{liu2025dlerdoinglengthpenalty,
+          title={DLER: Doing Length pEnalty Right - Incentivizing More Intelligence per Token via Reinforcement Learning}, 
+          author={Shih-Yang Liu and Xin Dong and Ximing Lu and Shizhe Diao and Mingjie Liu and Min-Hung Chen and Hongxu Yin and Yu-Chiang Frank Wang and Kwang-Ting Cheng and Yejin Choi and Jan Kautz and Pavlo Molchanov},
+          year={2025},
+          eprint={2510.15110},
+          archivePrefix={arXiv},
+          primaryClass={cs.LG},
+          url={https://arxiv.org/abs/2510.15110}, 
+    }
+      </code></pre>
+    </div>
+</section>
+<!--End BibTex citation -->
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            You are free to borrow the source code of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+          <div class="policy-links has-text-centered">
+            <a href="https://www.nvidia.com/en-us/about-nvidia/privacy-policy/" target="_blank" rel="noopener" class="policy-link">Privacy Policy</a>
+            <span class="separator">•</span>
+            <a href="https://www.nvidia.com/en-us/privacy-center/" target="_blank" rel="noopener" class="policy-link">Manage My Privacy</a>
+            <span class="separator">•</span>
+            <a href="https://www.nvidia.com/en-us/preferences/email-preferences/" target="_blank" rel="noopener" class="policy-link">Do Not Sell or Share My Data</a>
+            <span class="separator">•</span>
+            <a href="https://www.nvidia.com/en-us/about-nvidia/terms-of-service/" target="_blank" rel="noopener" class="policy-link">Terms of Service</a>
+            <span class="separator">•</span>
+            <a href="https://www.nvidia.com/en-us/about-nvidia/accessibility/" target="_blank" rel="noopener" class="policy-link">Accessibility</a>
+            <span class="separator">•</span>
+            <a href="https://www.nvidia.com/en-us/about-nvidia/company-policies/" target="_blank" rel="noopener" class="policy-link">Corporate Policies</a>
+            <span class="separator">•</span>
+            <a href="https://www.nvidia.com/en-us/contact/" target="_blank" rel="noopener" class="policy-link">Contact</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  </body>
+  </html>
