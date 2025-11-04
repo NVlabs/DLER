@@ -2,7 +2,8 @@
 
 <h1 align="center"> 
     <!-- <img src="./imgs/teaser.gif" width="600"> -->
-    ![Alt text](https://github.com/NVlabs/DLER/blob/main/imgs/teaser.gif)
+    <!-- ![Alt text](https://github.com/NVlabs/DLER/blob/main/imgs/teaser.gif) -->
+    <img src="./imgs/teaser.gif" alt="Alt text">
 </h1>
 
 <p align="center">
