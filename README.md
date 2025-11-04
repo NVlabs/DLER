@@ -2,7 +2,7 @@
 
 <h1 align="center"> 
     <!-- <img src="./imgs/teaser.gif" width="600"> -->
-    ![alt-text](https://github.com/NVlabs/DoRA/blob/main/imgs/teaser.gif)
+    ![alt-text](https://github.com/NVlabs/DLER/blob/main/imgs/teaser.gif)
 </h1>
 
 <p align="center">
@@ -14,6 +14,11 @@
 DLER is an RL-based training approach built on [VERL](https://github.com/volcengine/verl) that delivers state-of-the-art accuracy and response-length balance, reducing Chain-of-Thought (CoT) length by approximately 70% without any loss in accuracy.
 
 ## Model Performance
+<h1 align="center"> 
+    <img src="./imgs/model_performance.png">
+</h1>
+
+DLER surpasses previous state-of-the-art reasoning compression methods across five benchmarks—MATH, AIME-24, AMC, Minerva, and Olympiad—while also improving average response length. When compressing the reasoning traces of DeepSeek-R1-1.5B, DLER-R1-1.5B achieves the highest accuracy on all benchmarks, reducing the average response length to 2,466 tokens—over four times shorter than the original DeepSeek-R1-1.5B. Similarly, for DeepSeek-R1-7B, DLER-R1-7B attains the best balance between accuracy and response length, cutting length by 70% without any loss in accuracy.
 
 ## Model Usage
 ```
