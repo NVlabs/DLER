@@ -7,12 +7,12 @@
 </h1>
 
 <p align="center">
-        🤗 <a href="https://huggingface.co/collections/nvidia/reasoning-efficiency-research">Hugging Face Models</a>&nbsp&nbsp | &nbsp&nbsp 📄 <a href="https://arxiv.org/html/2510.15110v1">Paper</a> | &nbsp&nbsp 📜 <a href="https://nvlabs.github.io/DLER/">Blog</a> &nbsp
+        🤗 <a href="https://huggingface.co/collections/nvidia/reasoning-efficiency-research">Hugging Face Models</a>&nbsp&nbsp | &nbsp&nbsp 📄 <a href="https://arxiv.org/html/2510.15110v1">Paper</a> | &nbsp&nbsp 📜 <a href="https://nvlabs.github.io/DLER/">Page</a> &nbsp
 </p>
 
 ## Introduction
 
-DLER is an RL-based training approach built on [VERL](https://github.com/volcengine/verl) that delivers state-of-the-art accuracy and response-length balance, reducing Chain-of-Thought (CoT) length by approximately 70% without any loss in accuracy.
+DLER is an RL-based training approach built on [VERL](https://github.com/volcengine/verl) that delivers state-of-the-art accuracy and response-length balance, reducing Chain-of-Thought (CoT) length by  ~70% without loss in accuracy.
 
 ## Model Performance
 <h1 align="center"> 
@@ -92,10 +92,6 @@ for ((i=1; i<=N; i++)); do
     done
 done
 ```
-
-
-## Contact
-Shih-Yang Liu: [shihyangl@nvidia.com](shihyangl@nvidia.com) or [sliuau@connect.ust.hk](sliuau@connect.ust.hk)
 
 ## Citation
 If you find DLER useful, please consider giving a star and citation:
