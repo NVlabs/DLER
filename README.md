@@ -22,10 +22,10 @@ DLER is an RL-based training approach built on [VERL](https://github.com/volceng
 DLER surpasses previous state-of-the-art reasoning compression methods across five benchmarks—MATH, AIME-24, AMC, Minerva, and Olympiad—while also improving average response length. When compressing the reasoning traces of DeepSeek-R1-1.5B, DLER-R1-1.5B achieves the highest accuracy on all benchmarks, reducing the average response length to 2,466 tokens—over four times shorter than the original DeepSeek-R1-1.5B. Similarly, for DeepSeek-R1-7B, DLER-R1-7B attains the best balance between accuracy and response length, cutting length by 70% without any loss in accuracy.
 
 ## Model Usage
-```
+```bash
 pip install transformers==4.51.3
 ```
-```
+```python
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 
@@ -69,7 +69,7 @@ Download the Deepscaler training dataset from [here](https://huggingface.co/data
 
 ### Training using SLURM
 
-```
+```bash
 #!/bin/bash
 
 N=100  # Change this to however many times you want to run the job
@@ -94,7 +94,7 @@ done
 ```
 
 ## Citation
-If you find DLER useful, please consider giving a star and citation:
+If you find DLER useful, please star and cite it:
 ```bibtex
 @article{liu2025dler,
   title={DLER: Doing Length pEnalty Right-Incentivizing More Intelligence per Token via Reinforcement Learning},
