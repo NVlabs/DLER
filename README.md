@@ -12,7 +12,7 @@
 
 ## Introduction
 
-DLER is an RL-based training approach built on [VERL](https://github.com/volcengine/verl) that delivers state-of-the-art accuracy and response-length balance, reducing Chain-of-Thought (CoT) length by  ~70% without loss in accuracy.
+DLER is an simple RL training approach that delivers state-of-the-art accuracy and response-length balance, reducing Chain-of-Thought (CoT) length by  ~70% without loss in accuracy. We provide an [VERL](https://github.com/volcengine/verl) implementation of the DLER approach at [./verl-dler]. 
 
 ## Model Performance
 <h1 align="center"> 
