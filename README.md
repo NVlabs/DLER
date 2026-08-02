@@ -107,4 +107,4 @@ If you find DLER useful, please star and cite it:
 ## Licenses
 Copyright © 2024, NVIDIA Corporation. All rights reserved.
 
-This work is made available under the NVIDIA Source Code License-NC. Click [here](https://github.com/nbasyl/DoRA/LICENSE) to view a copy of this license.
+This work is made available under the NVIDIA Source Code License-NC. Click [here](https://github.com/NVlabs/DLER/blob/main/LICENSE) to view a copy of this license.
